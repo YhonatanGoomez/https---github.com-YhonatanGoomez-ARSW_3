@@ -21,11 +21,14 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import java.awt.Color;
 import javax.swing.JScrollBar;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class ControlFrame extends JFrame {
 
     private static final int DEFAULT_IMMORTAL_HEALTH = 100;
     private static final int DEFAULT_DAMAGE_VALUE = 10;
+
+    private ReentrantLock cierreSuma = new ReentrantLock();
 
     private JPanel contentPane;
 
@@ -68,6 +71,8 @@ public class ControlFrame extends JFrame {
 
         final JButton btnStart = new JButton("Start");
         btnStart.addActionListener(new ActionListener() {
+
+
             public void actionPerformed(ActionEvent e) {
 
                 immortals = setupInmortals();
@@ -88,17 +93,16 @@ public class ControlFrame extends JFrame {
         btnPauseAndCheck.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
-                /*
-				 * COMPLETAR
-                 */
-                int sum = 0;
-                for (Immortal im : immortals) {
-                    sum += im.getHealth();
-                }
+                    int sum = 0;
+                    for (Immortal im : immortals) {
+                        // La variable suma es una de las regiones criticas
+                        sum += im.getHealth();
+                        im.pauseImmortal();
+                    }
 
-                statisticsLabel.setText("<html>"+immortals.toString()+"<br>Health sum:"+ sum);
-                
-                
+                    System.out.println("la suma total de la vida es: " + sum);
+
+                    statisticsLabel.setText("<html>" + immortals.toString() + "<br>Health sum:" + sum);
 
             }
         });
@@ -108,9 +112,10 @@ public class ControlFrame extends JFrame {
 
         btnResume.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                /**
-                 * IMPLEMENTAR
-                 */
+
+             for  (Immortal im : immortals ){
+                 im.resumeImmortal();
+             }
 
             }
         });
@@ -127,6 +132,14 @@ public class ControlFrame extends JFrame {
 
         JButton btnStop = new JButton("STOP");
         btnStop.setForeground(Color.RED);
+        btnStop.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                for (Immortal im : immortals) {
+                    System.exit(0);
+                }
+                btnStart.setEnabled(true);
+            }
+        });
         toolBar.add(btnStop);
 
         scrollPane = new JScrollPane();

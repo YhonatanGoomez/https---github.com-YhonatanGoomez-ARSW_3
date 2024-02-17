@@ -1,0 +1,5 @@
+La probabilidad de deadlocks aumenta a medida que el número de inmortales de agranda en el box y la carga de trabajo aumentan debido a cómo se gestionan los bloqueos y la competencia por los recursos compartidos.
+
+En el caso de la implementación propuesta con ReentrantLock, cada inmortal intenta adquirir dos bloqueos: su propio bloqueo (this.lock) y el bloqueo del inmortal con el que está luchando (i2.lock). Estos bloqueos deben ser adquiridos en un orden específico para evitar deadlocks.
+
+Cuando hay un número significativo de inmortales compitiendo por estos bloqueos, se incrementa la probabilidad de que varios inmortales intenten adquirir los mismos bloqueos simultáneamente. Si todos los inmortales intentan adquirir los bloqueos en un orden diferente, es posible que se cree un ciclo de espera circular, lo que da lugar a un deadlock.

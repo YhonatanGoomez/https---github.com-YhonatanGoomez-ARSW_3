@@ -92,7 +92,7 @@ Sincronización y Dead-Locks.
 
 	* Funcionalidad:
 		* Se cumple con el invariante al usar la aplicación con 10, 100 o 1000 hilos.
-		* La aplicación puede reanudar y finalizar(stop) su ejecución.
+		* La aplicación puede reanudar y finalizar(stopInmortal) su ejecución.
 		
 		-->
 

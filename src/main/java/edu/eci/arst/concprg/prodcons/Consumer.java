@@ -26,9 +26,14 @@ public class Consumer extends Thread{
 
             if (queue.size() > 0) {
                 int elem=queue.poll();
-                System.out.println("Consumer consumes "+elem);                                
+                System.out.println("Consumer consumes "+elem);
+                    try {
+                        Thread.sleep(1200); // dormimos el hilo durante 1200 milisegundos
+                    }
+                    catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
             }
-            
         }
     }
 }
